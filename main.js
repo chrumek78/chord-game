@@ -101,18 +101,53 @@ var chordTypes = [
 if (navigator.requestMIDIAccess) {
   navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 } else {
-  document.querySelector('#info').innerText = "This Browser doesn't support WebMIDI";
+  document.querySelector('#gamediv').innerText = "This Browser doesn't support WebMIDI";
+}
+
+function initForm() {
+  var rootUl = document.getElementById('rootUl');
+  for (let i=0; i<chordSymbols.length; i++) {    
+    var newLi = document.createElement('li');
+    var newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('name', 'roots[]');
+    newInput.setAttribute('checked', 'checked');
+    newInput.setAttribute('value', chordSymbols[i].note);
+    newInput.setAttribute('id', chordSymbols[i].name);
+    var newLabel = document.createElement('label');
+    newLabel.setAttribute('for', chordSymbols[i].name);
+    newLabel.innerHTML = chordSymbols[i].name;
+    newLi.appendChild(newInput);
+    newLi.appendChild(newLabel);
+    rootUl.appendChild(newLi);
+  }
+  var typeUl = document.getElementById('typeUl');
+  for (let i=0; i<chordTypes.length; i++) {
+    var newLi = document.createElement('li');
+    var newInput = document.createElement('input');
+    newInput.setAttribute('type', 'checkbox');
+    newInput.setAttribute('name', 'types[]');
+    newInput.setAttribute('checked', 'checked');
+    newInput.setAttribute('value', chordTypes[i].note);
+    newInput.setAttribute('id', 'type'+i);
+    var newLabel = document.createElement('label');
+    newLabel.setAttribute('for', 'type'+i);
+    newLabel.innerHTML = chordTypes[i].name;
+    newLi.appendChild(newInput);
+    newLi.appendChild(newLabel);
+    typeUl.appendChild(newLi);
+  }
 }
 
 function onMIDIFailure() {
-  document.querySelector('#info').innerText = "Couldn't find any MIDI devices";
+  document.querySelector('#gamediv').innerText = "Couldn't find any MIDI devices";
 }
 
 function onMIDISuccess(midiAccess) {
 	for (var input of midiAccess.inputs.values()) {
 		input.onmidimessage = getMIDIMessage;
 	}
-  document.querySelector('#info').innerText = "Press any key to start";
+  initForm();
 }
 
 function getMIDIMessage(message) {
@@ -132,7 +167,7 @@ function getMIDIMessage(message) {
 
 function noteOnListener(note) {
   if (currentStep == 0) {
-    document.querySelector('#info').innerText = '';
+    document.querySelector('#question').innerText = '';
     gameStep();
   }
   currentChord.push(note)
@@ -155,6 +190,18 @@ function noteOnListener(note) {
 function noteOffListener(note) {
   currentChord.splice(currentChord.indexOf(note), 1);
   // document.querySelector('#info').innerText = '';
+}
+
+function startGame() {
+  document.querySelector('#formdiv').style.display = 'none';
+  document.querySelector('#gamediv').style.display = 'block';
+  gameStep();
+}
+
+function resetGame() {
+  document.querySelector('#formdiv').style.display = 'block';
+  document.querySelector('#gamediv').style.display = 'none';
+  currentStep=0;
 }
 
 function gameStep() {

@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head><meta charset="utf-8"></head>
-  <script src="main.js"></script>
+  <head><meta charset="utf-8">
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
   <body>
-    <div id="info"></div>
-    <div id="question"></div>
+    <div id="formdiv"><form action="#">
+      <h2>Podstawa</h2>
+        <ul id="rootUl"></ul>
+      <h2>Rodzaj</h2>
+        <ul id="typeUl"></ul>
+      <button type="button" onclick="startGame();">START</button>
+    </form></div>
+    <div id="gamediv" style="display:none" >
+      <div id="question"></div>
+      <button type="button" onclick="resetGame();">POWRÓT</button>
+    </div>
   </body>
 </html>
