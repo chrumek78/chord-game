@@ -67,12 +67,12 @@ var chordSymbols = [
 
 var chordTypes = [
   {
-    "name": 'dur postać zasadnicza',
+    "name": 'dur postać zasadnicza',
     "intervals": [4, 3],
     "tonicIndex": 0
   },
   {
-    "name": 'moll postać zasadnicza',
+    "name": 'moll postać zasadnicza',
     "intervals": [3, 4],
     "tonicIndex": 0
   },
