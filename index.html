@@ -5,15 +5,21 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="formdiv"><form action="#">
-      <h2>Podstawa</h2>
+    <div id="formdiv">
+      <form action="#">
         <ul id="rootUl"></ul>
-      <h2>Rodzaj</h2>
         <ul id="typeUl"></ul>
-      <button type="button" onclick="startGame();">START</button>
-    </form></div>
+        <br>
+        <button type="button" onclick="initJola();">JOLA</button>
+        <button type="button" onclick="initGreg();">GEGE</button>
+        <br>
+        <button type="button" onclick="startGame();">START</button>
+        <button type="button" onclick="resetForm();">RESET</button>
+      </form>
+    </div>
     <div id="gamediv" style="display:none" >
       <div id="question"></div>
+      <br>
       <button type="button" onclick="resetGame();">POWRÓT</button>
     </div>
   </body>
