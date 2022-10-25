@@ -249,16 +249,12 @@ function gameStep() {
   randType = Math.floor(Math.random() * selectedTypes.length);
   // filter out impossible inversions
   let availableInversions = [...selectedInversions];
-  console.log("availableInversions "+availableInversions);
   if (selectedTypes[randType].intervals.length < 3) {
     if (availableInversions.indexOf('3')>0) {
       availableInversions.splice(availableInversions.indexOf('3'), 1);
     }
   }
   invIndex = Math.floor(Math.random() * availableInversions.length);
-  console.log("availableInversions "+availableInversions);
-  console.log("availableInversions.length "+availableInversions.length);
-  console.log("invIndex "+invIndex);
   if (invIndex == 0) {
     randInversion = 0;
   } else {  
