@@ -274,9 +274,10 @@ function gameStep() {
   }
   correctBass = correctNotes[randInversion];
   correctNotes.sort(function(a, b){return a-b});
-  invText = randInversion>0 ? randInversion+" przewrót" : "postać zasadnicza";
-  document.querySelector('#question').innerText = selectedChords[randSymbol].name+"-"+selectedTypes[randType].name+" "+invText;
+  invText = randInversion>0 ? randInversion+" przewrót" : "";
+  document.getElementById('question').innerText = selectedChords[randSymbol].name+"-"+selectedTypes[randType].name+" "+invText;
   currentStep++;
+  document.getElementById('counter').innerText = currentStep;
 }
 
 function noteOnListener(note) {
@@ -291,6 +292,7 @@ function noteOnListener(note) {
   }
   document.getElementById('result').innerText = '✅ '.repeat(correctCount);
   if ( (correctCount == correctNotes.length) && (currentBass == correctBass) ) {
+    document.getElementById('stars').innerText += "⭐️";
     gameStep();
   }
 }
