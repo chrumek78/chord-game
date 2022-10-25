@@ -288,6 +288,9 @@ function noteOnListener(note) {
       correctCount++;
     }
   }
+  if ( (currentNotes.length == correctNotes.length) && (correctCount != correctNotes.length) ) {
+    document.getElementById('stars').innerText += "❌";
+  }
   document.getElementById('result').innerText = '✅ '.repeat(correctCount);
   if ( (correctCount == correctNotes.length) && (currentBass == correctBass) ) {
     document.getElementById('stars').innerText += "⭐️";
