@@ -7,18 +7,29 @@
   <body>
     <div id="formdiv">
       <form action="#">
+        <div style="float: left; padding-bottom: 20px">
+          <button type="button" onclick="initJola();">JOLA</button>
+          <button type="button" onclick="initGreg();">GEGE</button>
+          <button type="button" onclick="resetForm();">RESET</button>
+          <button type="button" onclick="startGame();">START</button>
+        </div>
+        <br style="clear:both">
         <ul id="rootUl"></ul>
+        <br style="clear:both">
+        <ul>
+          <li><input type="checkbox" name="inversions[]" value="0" id="inv0"><label for="inv0">Postać zasadnicza</label></li>
+          <li><input type="checkbox" name="inversions[]" value="1" id="inv1"><label for="inv1">I przewrót</label></li>
+          <li><input type="checkbox" name="inversions[]" value="2" id="inv2"><label for="inv1">II przewrót</label></li>
+          <li><input type="checkbox" name="inversions[]" value="3" id="inv3"><label for="inv1">III przewrót</label></li>
+        </ul>
+        <br style="clear:both">
         <ul id="typeUl"></ul>
-        <br>
-        <button type="button" onclick="initJola();">JOLA</button>
-        <button type="button" onclick="initGreg();">GEGE</button>
-        <br>
-        <button type="button" onclick="startGame();">START</button>
-        <button type="button" onclick="resetForm();">RESET</button>
+        <br style="clear:both">
       </form>
     </div>
     <div id="gamediv" style="display:none" >
       <div id="question"></div>
+      <div id="result" style="height:1em"></div>
       <br>
       <button type="button" onclick="resetGame();">POWRÓT</button>
     </div>
