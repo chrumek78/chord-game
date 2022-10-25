@@ -252,15 +252,15 @@ function gameStep() {
   // filter out impossible inversions
   let availableInversions = [...selectedInversions];
   if (selectedTypes[randType].intervals.length < 3) {
-    if (availableInversions.indexOf('3')>0) {
+    if (availableInversions.indexOf('3') != -1) {
       availableInversions.splice(availableInversions.indexOf('3'), 1);
     }
   }
-  invIndex = Math.floor(Math.random() * availableInversions.length);
-  if (invIndex == 0) {
-    randInversion = 0;
-  } else {  
+  if (availableInversions.length>0) {
+    invIndex = Math.floor(Math.random() * availableInversions.length);
     randInversion = availableInversions[invIndex];
+  } else {
+    randInversion = 0;
   }
   correctRoot = selectedChords[randSymbol].note;
   correctType = selectedTypes[randType];
