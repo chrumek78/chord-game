@@ -111,7 +111,35 @@ var chordTypes = [
 if (navigator.requestMIDIAccess) {
   navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 } else {
-  document.querySelector('#gamediv').innerText = "This Browser doesn't support WebMIDI";
+  document.querySelector('#formdiv').innerText = "Ta przeglądarka nie obsługuje WebMIDI";
+}
+
+function onMIDIFailure() {
+  document.querySelector('#formdiv').innerText = "Nie znaleziono urządzeń MIDI";
+  throw new Error("Nie znaleziono urządzeń MIDI");
+}
+
+function onMIDISuccess(midiAccess) {
+  if (midiAccess.inputs.size == 0) onMIDIFailure();
+	for (var input of midiAccess.inputs.values()) {
+		input.onmidimessage = getMIDIMessage;
+	}
+  initForm();
+}
+
+function getMIDIMessage(message) {
+ 	var command = message.data[0];
+	var note = message.data[1];
+	var velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
+
+  switch (command) {
+    case 144:
+      noteOnListener(note);
+      break;
+    case 128:
+      noteOffListener(note);
+      break;
+  }
 }
 
 function inArray(needle, haystack) {
@@ -182,32 +210,6 @@ function initJola() {
 
 function resetForm() {
   initCheckboxes([], [], []);
-}
-
-function onMIDIFailure() {
-  document.querySelector('#gamediv').innerText = "Couldn't find any MIDI devices";
-}
-
-function onMIDISuccess(midiAccess) {
-	for (var input of midiAccess.inputs.values()) {
-		input.onmidimessage = getMIDIMessage;
-	}
-  initForm();
-}
-
-function getMIDIMessage(message) {
- 	var command = message.data[0];
-	var note = message.data[1];
-	var velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
-
-  switch (command) {
-    case 144:
-      noteOnListener(note);
-      break;
-    case 128:
-      noteOffListener(note);
-      break;
-  }
 }
 
 function startGame() {
