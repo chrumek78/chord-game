@@ -1,7 +1,7 @@
 body {
   font: normal 50px Helvetica, Arial, sans-serif;
   background: #f5f5f5;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   text-align: center;
 }
@@ -76,14 +76,14 @@ div.sidebox {
 div.container {
   display: flex;
   justify-content: center;
-};
+}
 
 div.stars {
-  max-width: 400px;
+  width: 400px;
   font-size: 0.4em;
   word-wrap: break-word;
-  /* position: absolute;
+  position: absolute;
   left: 50%;
   transform: translate(-50%);
-  clear: both; */
+  clear: both;
 }
