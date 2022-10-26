@@ -6,6 +6,8 @@ var correctBass = 0;
 var selectedChords = [];
 var selectedTypes = [];
 var selectedInversions = [];
+var currentq = {};
+var nextq = {};
 var chordRoots = [
   {
     "name": 'C',
@@ -197,7 +199,8 @@ function initCheckboxes(notes, types, inversions) {
   });  
   formInv.forEach((invtype) => {
     invtype.checked = inversions.includes(parseInt(invtype.value))
-  });  
+  });
+  document.getElementById('auto').checked = false;
 }
 
 function initGreg() {
@@ -237,6 +240,16 @@ function startGame() {
   if ((selectedChords.length == 0) || (selectedTypes.length == 0) || (selectedInversions.length == 0)) return false;
   document.querySelector('#formdiv').style.display = 'none';
   document.querySelector('#gamediv').style.display = 'block';
+  document.getElementById('stars').innerText = "";
+  document.getElementById('prev').innerText = "";
+  if (selectedInversions.indexOf('auto') == -1) {
+    document.getElementById('prev').style.display = 'none';
+    document.getElementById('next').style.display = 'none';
+  } else {
+    document.getElementById('prev').style.display = 'block';
+    document.getElementById('next').style.display = 'block';
+  }
+  delete nextq.question;
   gameStep();
 }
 
@@ -246,36 +259,57 @@ function resetGame() {
   currentStep=0;
 }
 
-function gameStep() {
-  randSymbol = Math.floor(Math.random() * selectedChords.length);
-  randType = Math.floor(Math.random() * selectedTypes.length);
+function getQuestion() {
+  let randSymbol = Math.floor(Math.random() * selectedChords.length);
+  let randType = Math.floor(Math.random() * selectedTypes.length);
   // filter out impossible inversions
-  let availableInversions = [...selectedInversions];
+  let availableInversions = [0];
+  if (selectedInversions.indexOf('auto') == -1) {
+    availableInversions = [...selectedInversions];
+  }
   if (selectedTypes[randType].intervals.length < 3) {
     if (availableInversions.indexOf('3') != -1) {
       availableInversions.splice(availableInversions.indexOf('3'), 1);
     }
   }
   if (availableInversions.length>0) {
-    invIndex = Math.floor(Math.random() * availableInversions.length);
-    randInversion = availableInversions[invIndex];
+    randInversion = availableInversions[Math.floor(Math.random() * availableInversions.length)];
   } else {
     randInversion = 0;
   }
-  correctRoot = selectedChords[randSymbol].note;
-  correctType = selectedTypes[randType];
-  correctNotes = [correctRoot];
-  let y  = correctRoot;
+  let correctRoot = selectedChords[randSymbol].note;
+  let correctType = selectedTypes[randType];
+  let correctNotes = [correctRoot];
+  let y = correctRoot;
   for (let i=0; i<correctType.intervals.length; i++) {
     correctNotes.push((y+correctType.intervals[i]) % 12);
     y += correctType.intervals[i];
   }
-  correctBass = correctNotes[randInversion];
+  let invText = randInversion>0 ? randInversion+" przewrót" : "";
+
+  let q = {};
+  q.bassNote = correctNotes[randInversion];
   correctNotes.sort(function(a, b){return a-b});
-  invText = randInversion>0 ? randInversion+" przewrót" : "";
-  document.getElementById('question').innerText = selectedChords[randSymbol].name+"-"+selectedTypes[randType].name+" "+invText;
-  currentStep++;
+  q.notes = correctNotes;
+  q.question = selectedChords[randSymbol].name+"-"+selectedTypes[randType].name+" "+invText;
+  return q;
+}
+
+function gameStep() {
+  if (typeof nextq.question != "undefined") {
+    document.getElementById('prev').innerText = currentq.question;
+    currentq = nextq;
+    nextq = getQuestion();
+  } else {
+    currentq = getQuestion();
+    nextq = getQuestion();
+  }
+  correctBass = currentq.bassNote;
+  correctNotes = currentq.notes;
+  document.getElementById('question').innerText = currentq.question;
+  document.getElementById('next').innerText = nextq.question;
   document.getElementById('counter').innerText = currentStep;
+  currentStep++;
 }
 
 function noteOnListener(note) {

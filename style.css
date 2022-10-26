@@ -56,13 +56,27 @@ button {
   background-color: #7d7;
 }
 
-div#question {
+div.question {
   padding: 1.5em 1em;
   font-size: 1.5em;
   border: 4px solid white;
   color: #333;
   background-color: #ccc;
 }
+
+div.sidebox {
+  border: 4px solid white;
+  height: 1em;
+  padding: 1em;
+  font-size: 1em;
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+div.container {
+  display: flex;
+  justify-content: center;
+};
 
 div.stars {
   width: 400px;

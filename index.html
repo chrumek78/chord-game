@@ -21,14 +21,19 @@
           <li><input type="checkbox" name="inversions[]" value="1" id="inv1"><label for="inv1">I przewrót</label></li>
           <li><input type="checkbox" name="inversions[]" value="2" id="inv2"><label for="inv1">II przewrót</label></li>
           <li><input type="checkbox" name="inversions[]" value="3" id="inv3"><label for="inv1">III przewrót</label></li>
+          <li><input type="checkbox" name="inversions[]" value="auto" id="auto"><label for="auto">Łączenie akordów<label></li>
         </ul>
         <br style="clear:both">
         <ul id="typeUl"></ul>
         <br style="clear:both">
       </form>
     </div>
-    <div id="gamediv" style="display:none" >
-      <div id="question"></div>
+    <div id="gamediv" style="display:none">
+      <div class="container">
+        <div class="sidebox" id="prev"></div>
+        <div class="question" id="question">current</div>
+        <div class="sidebox" id="next"></div>
+      </div>
       <div id="result" style="height:1em"></div>
       <div style="font-size: 0.25em; float:right" id="counter">0</div>
       <br style="clear:both">
