@@ -244,7 +244,7 @@ function startGame() {
   if ((selectedChords.length == 0) || (selectedTypes.length == 0) || (selectedInversions.length == 0)) return false;
   document.querySelector('#formdiv').style.display = 'none';
   document.querySelector('#gamediv').style.display = 'block';
-  // document.getElementById('stars').innerText = "";
+  document.getElementById('stars').innerText = "";
   document.getElementById('prev').innerText = "";
   if (selectedInversions.indexOf('auto') == -1) {
     document.getElementById('prev').style.display = 'none';
@@ -270,7 +270,7 @@ function getQuestion() {
   let randType = Math.floor(Math.random() * selectedTypes.length);
   // filter out impossible inversions
   let availableInversions = [0];
-  if (selectedInversions.indexOf('auto') == -1) {
+  if (!connectedChords) {
     availableInversions = [...selectedInversions];
   }
   if (selectedTypes[randType].intervals.length < 3) {
@@ -342,7 +342,7 @@ function noteOnListener(note) {
     document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
   }
   document.getElementById('result').innerText = '✅ '.repeat(correctCount);
-  if ( (correctCount == correctNotes.length) && (currentBass == correctBass) ) {
+  if ( (correctCount == correctNotes.length) && (connectedChords || (currentBass == correctBass)) ) {
     document.getElementById('stars').innerText += "⭐️";
     score++;
     document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
