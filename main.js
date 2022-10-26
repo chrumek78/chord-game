@@ -1,4 +1,6 @@
 var currentStep = 0;
+var score = 0;
+var failcount = 0;
 var currentNotes = [];
 var currentBass = 0;
 var correctNotes = [];
@@ -8,6 +10,7 @@ var selectedTypes = [];
 var selectedInversions = [];
 var currentq = {};
 var nextq = {};
+var connectedChords = false;
 var chordRoots = [
   {
     "name": 'C',
@@ -216,6 +219,7 @@ function resetForm() {
 }
 
 function startGame() {
+  score = 0;
   let formRoots = document.getElementsByName('roots[]');
   selectedChords = []
   formRoots.forEach((root) => {
@@ -240,14 +244,16 @@ function startGame() {
   if ((selectedChords.length == 0) || (selectedTypes.length == 0) || (selectedInversions.length == 0)) return false;
   document.querySelector('#formdiv').style.display = 'none';
   document.querySelector('#gamediv').style.display = 'block';
-  document.getElementById('stars').innerText = "";
+  // document.getElementById('stars').innerText = "";
   document.getElementById('prev').innerText = "";
   if (selectedInversions.indexOf('auto') == -1) {
     document.getElementById('prev').style.display = 'none';
     document.getElementById('next').style.display = 'none';
+    connectedChords = false;
   } else {
     document.getElementById('prev').style.display = 'block';
     document.getElementById('next').style.display = 'block';
+    connectedChords = true;
   }
   delete nextq.question;
   gameStep();
@@ -299,35 +305,47 @@ function gameStep() {
   if (typeof nextq.question != "undefined") {
     document.getElementById('prev').innerText = currentq.question;
     currentq = nextq;
-    nextq = getQuestion();
   } else {
     currentq = getQuestion();
-    nextq = getQuestion();
+  }
+  nextq = getQuestion();
+  if (connectedChords) {
+    while (commonNoteCount(currentq.notes, nextq.notes) == 0) {
+      nextq = getQuestion();
+    }
   }
   correctBass = currentq.bassNote;
   correctNotes = currentq.notes;
   document.getElementById('question').innerText = currentq.question;
   document.getElementById('next').innerText = nextq.question;
-  document.getElementById('counter').innerText = currentStep;
   currentStep++;
+}
+
+function commonNoteCount(chord1, chord2) {
+  let result = 0;
+  for (let i=0; i<chord1.length; i++) {
+    if (chord2.includes(chord1[i] % 12)) {
+      result++;
+    }
+  }
+  return result;
 }
 
 function noteOnListener(note) {
   if (!currentStep) return false;
   currentNotes.push(note);
   currentBass = Math.min(...currentNotes) % 12;
-  let correctCount = 0;
-  for (let i=0; i<currentNotes.length; i++) {
-    if (correctNotes.includes(currentNotes[i] % 12)) {
-      correctCount++;
-    }
-  }
+  correctCount = commonNoteCount(currentNotes, correctNotes);
   if ( (currentNotes.length == correctNotes.length) && (correctCount != correctNotes.length) ) {
     document.getElementById('stars').innerText += "❌";
+    failcount++;
+    document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
   }
   document.getElementById('result').innerText = '✅ '.repeat(correctCount);
   if ( (correctCount == correctNotes.length) && (currentBass == correctBass) ) {
     document.getElementById('stars').innerText += "⭐️";
+    score++;
+    document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
     gameStep();
   }
 }
