@@ -10,7 +10,7 @@ var selectedTypes = [];
 var selectedInversions = [];
 var currentq = {};
 var nextq = {};
-var connectedChords = false;
+var minCommon = false;
 var chordRoots = [
   {
     "name": 'C',
@@ -203,11 +203,12 @@ function initCheckboxes(notes, types, inversions) {
   formInv.forEach((invtype) => {
     invtype.checked = inversions.includes(parseInt(invtype.value))
   });
-  document.getElementById('auto').checked = false;
+  document.getElementById('connected1').checked = false;
+  document.getElementById('connected2').checked = false;
 }
 
 function initGreg() {
-  initCheckboxes([0, 1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16], [0, 1], [0, 1, 2, 3]);
+  initCheckboxes([0, 1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15], [0, 1], [0, 1, 2, 3]);
 }
 
 function initJola() {
@@ -246,14 +247,14 @@ function startGame() {
   document.querySelector('#gamediv').style.display = 'block';
   document.getElementById('stars').innerText = "";
   document.getElementById('prev').innerText = "";
-  if (selectedInversions.indexOf('auto') == -1) {
+  if ( (selectedInversions.indexOf('connected1') == -1) && (selectedInversions.indexOf('connected2') == -1) ) {
     document.getElementById('prev').style.display = 'none';
     document.getElementById('next').style.display = 'none';
-    connectedChords = false;
+    minCommon = false;
   } else {
     document.getElementById('prev').style.display = 'block';
     document.getElementById('next').style.display = 'block';
-    connectedChords = true;
+    minCommon = (selectedInversions.indexOf('connected1') != -1) ? 1 : 2;
   }
   delete nextq.question;
   gameStep();
@@ -270,7 +271,7 @@ function getQuestion() {
   let randType = Math.floor(Math.random() * selectedTypes.length);
   // filter out impossible inversions
   let availableInversions = [0];
-  if (!connectedChords) {
+  if (!minCommon) {
     availableInversions = [...selectedInversions];
   }
   if (selectedTypes[randType].intervals.length < 3) {
@@ -309,8 +310,8 @@ function gameStep() {
     currentq = getQuestion();
   }
   nextq = getQuestion();
-  if (connectedChords) {
-    while (commonNoteCount(currentq.notes, nextq.notes) == 0) {
+  if (minCommon) {
+    while (commonNoteCount(currentq.notes, nextq.notes) < minCommon) {
       nextq = getQuestion();
     }
   }
@@ -342,7 +343,7 @@ function noteOnListener(note) {
     document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
   }
   document.getElementById('result').innerText = '✅ '.repeat(correctCount);
-  if ( (correctCount == correctNotes.length) && (connectedChords || (currentBass == correctBass)) ) {
+  if ( (correctCount == correctNotes.length) && (minCommon || (currentBass == correctBass)) ) {
     document.getElementById('stars').innerText += "⭐️";
     score++;
     document.getElementById('counter').innerText = currentStep+"  ("+Math.floor(100*score/(score+failcount))+"%)";
