@@ -311,8 +311,10 @@ function gameStep() {
   }
   nextq = getQuestion();
   if (minCommon) {
-    while (commonNoteCount(currentq.notes, nextq.notes) < minCommon) {
+    let cnc = commonNoteCount(currentq.notes, nextq.notes);
+    while (cnc < minCommon || (cnc >=3 ) ) {
       nextq = getQuestion();
+      cnc = commonNoteCount(currentq.notes, nextq.notes);
     }
   }
   correctBass = currentq.bassNote;
