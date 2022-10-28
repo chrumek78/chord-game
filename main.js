@@ -86,10 +86,12 @@ var chordTypes = [
   {
     "name": 'dur',
     "intervals": [4, 3],
+    "symbol": '',
   },
   {
     "name": 'moll',
     "intervals": [3, 4],
+    "symbol": 'm',
   },
   {
     "name": 'dim',
@@ -104,12 +106,28 @@ var chordTypes = [
     "intervals": [4, 3, 3],
   },
   {
+    "name": 'M7',
+    "intervals": [4, 3, 4],
+  },
+  {
     "name": 'm7',
     "intervals": [3, 4, 3],
   },
   {
-    "name": 'M7',
-    "intervals": [4, 3, 4],
+    "name": 'mM7',
+    "intervals": [3, 4, 4],
+  },
+  {
+    "name": 'sus4',
+    "intervals": [5, 2],
+  },
+  {
+    "name": 'sus2',
+    "intervals": [2, 5],
+  },
+  {
+    "name": '6',
+    "intervals": [4, 3, 2],
   },
 ];
 
@@ -211,6 +229,10 @@ function initGreg() {
   initCheckboxes([0, 1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15], [0, 1], [0, 1, 2, 3]);
 }
 
+function initGreg2() {
+  initCheckboxes([0, 3, 5, 7, 10, 13, 15], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0]);
+}
+
 function initJola() {
   initCheckboxes([0, 1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13], [0, 1], [0]);
 }
@@ -263,7 +285,10 @@ function startGame() {
 function resetGame() {
   document.querySelector('#formdiv').style.display = 'block';
   document.querySelector('#gamediv').style.display = 'none';
+  failcount = 0;
+  score = 0;
   currentStep=0;
+  document.getElementById('counter').innerText = '0';
 }
 
 function getQuestion() {
@@ -298,7 +323,7 @@ function getQuestion() {
   q.bassNote = correctNotes[randInversion];
   correctNotes.sort(function(a, b){return a-b});
   q.notes = correctNotes;
-  q.question = selectedChords[randSymbol].name+"-"+selectedTypes[randType].name+" "+invText;
+  q.question = selectedChords[randSymbol].name+selectedTypes[randType].name+" "+invText;
   return q;
 }
 
