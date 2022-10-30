@@ -17,11 +17,11 @@ var chordRoots = [
     "note": 0
   },
   {
-    "name": 'Cis',
+    "name": 'C♯',
     "note": 1
   },
   {
-    "name": 'Des',
+    "name": 'D♭',
     "note": 1
   },
   {
@@ -29,7 +29,7 @@ var chordRoots = [
     "note": 2
   },
   {
-    "name": 'Es',
+    "name": 'E♭',
     "note": 3
   },
   {
@@ -37,7 +37,7 @@ var chordRoots = [
     "note": 4
   },
   {
-    "name": "Fes",
+    "name": "F♭",
     "note": 4
   },
   {
@@ -45,11 +45,11 @@ var chordRoots = [
     "note": 5
   },
   {
-    "name": 'Fis',
+    "name": 'F♯',
     "note": 6
   },
   {
-    "name": 'Ges',
+    "name": 'G♭',
     "note": 6
   },
   {
@@ -57,7 +57,7 @@ var chordRoots = [
     "note": 7
   },
   {
-    "name": 'Gis',
+    "name": 'G♯',
     "note": 8
   },
   {
@@ -77,7 +77,7 @@ var chordRoots = [
     "note": 11
   },
   {
-    "name": 'Ces',
+    "name": 'C♭',
     "note": 11
   }
 ];
@@ -128,6 +128,10 @@ var chordTypes = [
   {
     "name": '6',
     "intervals": [4, 3, 2],
+  },
+  {
+    "name": 'm6',
+    "intervals": [3, 4, 2],
   },
 ];
 
