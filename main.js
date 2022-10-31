@@ -84,12 +84,12 @@ var chordRoots = [
 
 var chordTypes = [
   {
-    "name": 'dur',
+    "name": '',
     "intervals": [4, 3],
     "symbol": '',
   },
   {
-    "name": 'moll',
+    "name": 'm',
     "intervals": [3, 4],
     "symbol": 'm',
   },
