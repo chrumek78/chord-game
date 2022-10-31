@@ -61,7 +61,7 @@ var chordRoots = [
     "note": 8
   },
   {
-    "name": 'As',
+    "name": 'A♭',
     "note": 8
   },
   {
