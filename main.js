@@ -118,12 +118,12 @@ var chordTypes = [
     "intervals": [3, 4, 4],
   },
   {
-    "name": 'sus4',
-    "intervals": [5, 2],
-  },
-  {
     "name": 'sus2',
     "intervals": [2, 5],
+  },
+  {
+    "name": 'sus4',
+    "intervals": [5, 2],
   },
   {
     "name": '6',
@@ -132,6 +132,30 @@ var chordTypes = [
   {
     "name": 'm6',
     "intervals": [3, 4, 2],
+  },
+  {
+    "name": 'add2',
+    "intervals": [2, 2, 3],
+  },
+  {
+    "name": 'add9',
+    "intervals": [2, 2, 3],
+  },
+  {
+    "name": '7♭5',
+    "intervals": [4, 2, 4],
+  },
+  {
+    "name": '7♯5',
+    "intervals": [4, 4, 2],
+  },
+  {
+    "name": 'm7♭5',
+    "intervals": [3, 3, 4],
+  },
+  {
+    "name": 'aug7',
+    "intervals": [4, 4, 2],
   },
 ];
 
@@ -221,12 +245,10 @@ function initCheckboxes(notes, types, inversions) {
   });
   formTypes.forEach((ctype) => {
     ctype.checked = types.includes(parseInt(ctype.value));
-  });  
-  formInv.forEach((invtype) => {
-    invtype.checked = inversions.includes(parseInt(invtype.value))
   });
-  document.getElementById('connected1').checked = false;
-  document.getElementById('connected2').checked = false;
+  formInv.forEach((invtype) => {
+    invtype.checked = inversions.includes(parseInt(invtype.value)) || inversions.includes(invtype.value)
+  });
 }
 
 function initGreg() {
@@ -234,7 +256,7 @@ function initGreg() {
 }
 
 function initGreg2() {
-  initCheckboxes([0, 3, 5, 7, 10, 13, 15], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0]);
+  initCheckboxes([0, 3, 5, 7, 10, 13, 15], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ['connected1']);
 }
 
 function initJola() {
